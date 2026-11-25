@@ -19,7 +19,7 @@
 - CP2 · B: kiểm B1 đủ 9 kịch bản, khớp đáp án; kiểm quy tắc "giảm một nửa bằng ½ mức gấp đôi" (5,6 → 2,8; 40,7 → 20,3; 51,8 → 25,9 [simulated]); xác nhận B4 ghi cả 0,98× và 1,03× [simulated]. Báo nhóm phần B trong `bang_chi_phi.md` còn 17 chỗ trống và branch CP4 chưa merge.
 - CP3 · C: tự gắn nhãn độc lập cả 20 ca, không trao đổi với người gắn nhãn 2, ra kết quả: Do người dùng 4 · Hệ thống 5 · Ngữ cảnh 4 · Giới hạn hệ thống 3 · Ngầm 4. Tỉ lệ đồng thuận với người gắn nhãn 2 là 10/20 = 50%, dưới 80%, nên hai người viết lại định nghĩa theo thứ tự xét (Ngầm → Do người dùng → Giới hạn → Hệ thống → Ngữ cảnh) và viết quy tắc cho 10 ca không trùng. Bộ nhãn thống nhất khớp bảng đáp án ở 20/20 ca.
 - CP4 · D: kiểm "Xong khi" của `pilot_plan.yaml`: `yaml.safe_load` chạy không lỗi, không còn `?` ngoài dòng chú thích, có 4 luật dừng đủ NẾU – TRONG – THÌ – KHÔNG THÌ, chia theo nhân viên 20 cụm mỗi nhóm, ghi rõ đánh đổi MDE 6 điểm (power 64,2% ở mức 5 điểm, simulated).
-- CP5 · E: viết danh sách 11 event có `trace_id` trong `chi_so.md` và phần kiểm tra chéo chỉ số → event; tên event khớp với bảng khắc phục CP3.
+- CP5 · E: viết danh sách 11 event có `trace_id` trong `chi_so.md` và phần kiểm tra chéo chỉ số → event; tên event khớp với bảng khắc phục CP3. Điền E1: ba chỉ số tính thử do `lab13.py` in ra (82,83% · 27,12% · 4,25% [simulated]) và hai chỉ số tự đề xuất. Điền E2: 3 dòng rủi ro kinh tế lấy số từ bảng độ nhạy (+51,8%; 0,98–1,03×; +2.370 đ/việc [simulated]). Cập nhật mục 4 của hồ sơ launch sang "Xong, có bằng chứng".
 - Duyệt chéo Gate 2a: (điền sau)
 
 ## 4. Bằng chứng

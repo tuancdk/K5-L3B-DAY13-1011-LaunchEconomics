@@ -37,6 +37,23 @@ Ví dụ: `report/team/20241234_NguyenVanAn.md`.
 
 Sao chép mục dưới đây cho từng thành viên.
 
+## PhungVanThanhCao-2A202603741
+
+### Phần việc phụ trách
+
+- Người gắn nhãn 1: theo dõi điều kiện "Xong khi" của CP1–CP5; nhiệm vụ C (`bang_loi.md`); danh sách event, E1, E2 trong `chi_so.md`; mục 4 của `ho_so_launch_v0.md`.
+
+### Đóng góp cụ thể
+
+- Kiểm checklist CP1, CP2, CP4: xác nhận số khớp đáp án, báo nhóm các bảng còn trống, kiểm `pilot_plan.yaml` đọc được bằng `yaml.safe_load`.
+- Gắn nhãn độc lập 20 ca lỗi (cột "Nhãn người 1"), cùng người gắn nhãn 2 thống nhất nhãn.
+- Viết 11 event có `trace_id` và phần kiểm tra chéo; điền E1 (3 chỉ số tính thử, 2 chỉ số tự đề xuất) và 3 dòng rủi ro kinh tế E2.
+
+### Bằng chứng
+
+- Commit `8cf75a7` (PR #14), `556eb64` (nhãn độc lập CP3, PR #17), `2b3c824` (danh sách event, PR #21), cùng commit E1/E2 này.
+- File: `report/team/bang_loi.md`, `report/team/chi_so.md`, `report/team/2A202603741_PhungVanThanhCao.md`.
+
 ## HoVaTen-MSSV
 
 ### Phần việc phụ trách
