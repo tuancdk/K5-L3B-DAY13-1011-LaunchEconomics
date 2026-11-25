@@ -248,6 +248,23 @@ def in_ket_qua_cp4(reqs):
         print(f'{ten}: {mo_lai.sum():,}/{mo_lai.count():,} yêu cầu ({mo_lai.mean():.2%})')
 
 
+def in_ket_qua_cp5(reqs):
+    """In ba chỉ số E1 quan sát được trong đợt chạy thử."""
+    mo_lai = reqs['mo_lai_trong_7_ngay']
+    dong_on_dinh = reqs['dong_trong_24h'].eq(1) & mo_lai.eq(0)
+    da_xem_lai = reqs[reqs['duoc_xem_lai'].eq(1)]
+    bo_qua = da_xem_lai['quyet_dinh_xem_lai'].isin(['sua', 'bo'])
+
+    print('\nE1 · Chỉ số trong đợt chạy thử [simulated]')
+    for ten, chi_so in (
+        ('Chính · Đóng trong 24 giờ và không mở lại trong 7 ngày', dong_on_dinh),
+        ('Dùng · Gợi ý bị sửa hoặc bỏ trong các ca xem lại', bo_qua),
+        ('An toàn · Mở lại trong 7 ngày', mo_lai.eq(1)),
+    ):
+        ti_le = f'{chi_so.mean():.2%}' if len(chi_so) else 'không xác định'
+        print(f'{ten}: {chi_so.sum():,}/{len(chi_so):,} ({ti_le})')
+
+
 if __name__ == '__main__':
     runs = pd.read_csv('logix_runs.csv')
     reqs = pd.read_csv('logix_requests.csv', keep_default_na=False)
@@ -255,3 +272,4 @@ if __name__ == '__main__':
     in_ket_qua_cp1(runs, reqs)
     in_ket_qua_cp2(runs, reqs)
     in_ket_qua_cp4(reqs)
+    in_ket_qua_cp5(reqs)
