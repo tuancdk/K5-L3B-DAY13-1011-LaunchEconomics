@@ -4,7 +4,11 @@ Không cần khoá API. Điền các chỗ ghi VIẾT Ở ĐÂY (đánh dấu TO
 Bản gốc chưa sửa nằm ở lab13_starter.py.
 """
 import math
+from statistics import NormalDist
+
 import pandas as pd
+from statsmodels.stats.power import NormalIndPower
+from statsmodels.stats.proportion import proportion_effectsize
 
 # Bảng giá GIẢ ĐỊNH của lab (không phải giá thật của nhà cung cấp nào)
 GIA_VAO = 26        # đồng cho 1.000 token đầu vào
@@ -13,6 +17,7 @@ GIA_TOOL = 15       # đồng cho 1 lần gọi tool
 LUONG_PHUT = 2000   # đồng cho 1 phút của nhân viên (đã gồm bảo hiểm, văn phòng)
 BASELINE = 12000    # đồng cho 1 yêu cầu khi nhân viên tự làm (6 phút)
 CHI_PHI_CO_DINH_THANG = 40_000_000
+PHAM_VI_PILOT = ('noi_dia', 'hang_nang')
 
 
 # ---------- Nhiệm vụ A1 · Kinh tế của việc chạy lại ----------
@@ -115,7 +120,7 @@ def in_ket_qua_cp1(runs, reqs):
     print(ti_le_ok.to_string(float_format=lambda ti_le: f'{ti_le:.1%}'))
 
     print('\nA4 · Chi phí cố định trong phạm vi noi_dia + hang_nang')
-    pham_vi = reqs[reqs['loai'].isin(['noi_dia', 'hang_nang'])]
+    pham_vi = reqs[reqs['loai'].isin(PHAM_VI_PILOT)]
     ket_qua_pham_vi = mo_hinh(runs, pham_vi)
     ti_le_thanh_cong_trong_mau = ket_qua_pham_vi['thanh_cong'] / len(reqs)
     for khoi_luong in (45_000, 22_500):
@@ -184,12 +189,69 @@ def in_ket_qua_cp2(runs, reqs):
               f'({ket_qua["cps"] / BASELINE:.2f}×), hòa vốn ở {phut_hoa_von:.1f} phút xem lại/ca')
 
 
+# ---------- Nhiệm vụ D1 · Cỡ mẫu pilot ----------
+def co_mau_hai_ty_le(p1, p2, alpha, power):
+    """Cỡ mẫu mỗi nhóm cho kiểm định hai phía, hai nhóm cùng kích thước."""
+    phan_phoi_chuan = NormalDist()
+    z_alpha = phan_phoi_chuan.inv_cdf(1 - alpha / 2)
+    z_power = phan_phoi_chuan.inv_cdf(power)
+    p_trung_binh = (p1 + p2) / 2
+    do_lech_chuan_gop = math.sqrt(2 * p_trung_binh * (1 - p_trung_binh))
+    do_lech_chuan_rieng = math.sqrt(p1 * (1 - p1) + p2 * (1 - p2))
+    return math.ceil(
+        ((z_alpha * do_lech_chuan_gop + z_power * do_lech_chuan_rieng) / (p2 - p1)) ** 2
+    )
+
+
+def in_ket_qua_cp4(reqs):
+    """In cỡ mẫu D1 và tỷ lệ mở lại dùng để lập kế hoạch pilot."""
+    baseline, alpha, power = 0.70, 0.05, 0.80
+    icc = 0.02
+    so_nhan_vien_moi_nhom = 20
+    so_depot_moi_nhom = 6
+    so_yeu_cau_moi_nhan_vien = 75
+
+    co_mau_5_diem = co_mau_hai_ty_le(baseline, 0.75, alpha, power)
+    he_so_thiet_ke = 1 + (so_yeu_cau_moi_nhan_vien - 1) * icc
+    co_mau_theo_cum = math.ceil(co_mau_5_diem * he_so_thiet_ke)
+    so_nhan_vien_can = math.ceil(co_mau_theo_cum / so_yeu_cau_moi_nhan_vien)
+    tran_theo_nhan_vien = so_nhan_vien_moi_nhom / icc
+    tran_theo_depot = so_depot_moi_nhom / icc
+
+    co_mau_6_diem = co_mau_hai_ty_le(baseline, 0.76, alpha, power)
+    # Giải c*m / (1 + (m - 1)*ICC) >= n để tính số yêu cầu tối thiểu mỗi người.
+    so_yeu_cau_toi_thieu = math.ceil(
+        co_mau_6_diem * (1 - icc) / (so_nhan_vien_moi_nhom - co_mau_6_diem * icc)
+    )
+    he_so_thiet_ke_6_diem = 1 + (so_yeu_cau_toi_thieu - 1) * icc
+    co_mau_hieu_dung = so_nhan_vien_moi_nhom * so_yeu_cau_toi_thieu / he_so_thiet_ke_6_diem
+    power_5_diem = NormalIndPower().power(
+        proportion_effectsize(0.75, baseline), nobs1=co_mau_6_diem, alpha=alpha
+    )
+
+    print('\nD1 · Cỡ mẫu pilot [simulated]')
+    print(f'a. Theo yêu cầu (+5 điểm): {co_mau_5_diem:,} yêu cầu/nhóm')
+    print(f'b. Theo nhân viên (m={so_yeu_cau_moi_nhan_vien}): DE={he_so_thiet_ke:.2f}, '
+          f'{co_mau_theo_cum:,} yêu cầu/nhóm, {so_nhan_vien_can} nhân viên/nhóm '
+          f'({2 * so_nhan_vien_can} cần so với {2 * so_nhan_vien_moi_nhom} hiện có)')
+    print(f'c. {so_nhan_vien_moi_nhom} nhân viên/nhóm: cỡ mẫu hiệu dụng < {tran_theo_nhan_vien:,.0f}')
+    print(f'd. {so_depot_moi_nhom} depot/nhóm: cỡ mẫu hiệu dụng < {tran_theo_depot:,.0f}')
+    print(f'e. +6 điểm: cần {co_mau_6_diem:,} mẫu hiệu dụng/nhóm, '
+          f'tối thiểu {so_yeu_cau_toi_thieu} yêu cầu/nhân viên; '
+          f'DE={he_so_thiet_ke_6_diem:.2f}, cỡ mẫu hiệu dụng={co_mau_hieu_dung:.2f}/nhóm')
+    print(f'   Ở mức {co_mau_6_diem:,} mẫu hiệu dụng/nhóm, power cho chênh lệch +5 điểm: {power_5_diem:.1%}')
+
+    pham_vi = reqs[reqs['loai'].isin(PHAM_VI_PILOT)]
+    print('\nD3 · Tỷ lệ mở lại trong 7 ngày [simulated]')
+    for ten, nhom in (('Toàn mẫu', reqs), ('noi_dia + hang_nang', pham_vi)):
+        mo_lai = nhom['mo_lai_trong_7_ngay']
+        print(f'{ten}: {mo_lai.sum():,}/{mo_lai.count():,} yêu cầu ({mo_lai.mean():.2%})')
+
+
 if __name__ == '__main__':
     runs = pd.read_csv('logix_runs.csv')
     reqs = pd.read_csv('logix_requests.csv', keep_default_na=False)
     kiem_tra_dap_an_biet_truoc()
     in_ket_qua_cp1(runs, reqs)
     in_ket_qua_cp2(runs, reqs)
-    # TODO CP4 · Nhiệm vụ D: cỡ mẫu.
-    #   from statsmodels.stats.proportion import proportion_effectsize
-    #   from statsmodels.stats.power import NormalIndPower
+    in_ket_qua_cp4(reqs)
