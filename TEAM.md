@@ -36,8 +36,6 @@ report/team/MSSV_HoTen.md
 
 Ví dụ: `report/team/20241234_NguyenVanAn.md`.
 
-Sao chép mục dưới đây cho từng thành viên.
-
 ## PhungVanThanhCao-2A202603741
 
 ### Phần việc phụ trách
@@ -95,16 +93,23 @@ Báo cáo chi tiết trong [báo cáo cá nhân](report/team/2A202603782_VuQuang
 - [src/lab13.py](src/lab13.py) trong các commit `4c884a3` (CP1), `f8aa454` (CP2) và `39dde70` (CP5).
 - [pilot_plan.yaml](report/team/pilot_plan.yaml) trong commit `f9d8207` (CP4).
 
-## HoVaTen-MSSV
+## NguyenMinhDuc-2A202603751
+
+Báo cáo chi tiết trong [báo cáo cá nhân](report/team/2A202603751_NguyenMinhDuc.md).
 
 ### Phần việc phụ trách
 
--
+- CP1–CP2: đối chiếu kết quả chạy và điền bảng chi phí A1–A4, bảng độ nhạy B1–B4.
+- CP4: viết code tính cỡ mẫu D1 a–e và tỷ lệ mở lại trong 7 ngày.
 
 ### Đóng góp cụ thể
 
--
+- **CP1** — Đối chiếu chi phí token từ 1.624 lượt chạy, kể cả lượt lỗi. Kết quả 245.585,132 đ khớp đầu ra sau khi làm tròn.
+- **CP2** — Điền đủ 9 kịch bản B1 và kiểm tra ba cặp nhân đôi, chia đôi trước khi làm tròn. Xác định giới hạn 2 lần chạy cho chi phí toàn hệ thống thấp nhất (6.901.220 đ [simulated]).
+- **CP4** — Tính ngưỡng 299 yêu cầu mỗi nhân viên để đạt 859 mẫu hiệu dụng mỗi nhóm. Tỷ lệ mở lại trong 7 ngày là 4,25% trên toàn mẫu và 3,97% trong phạm vi pilot [simulated].
 
 ### Bằng chứng
 
--
+- [PR #12 · Bảng chi phí CP1](https://github.com/tuancdk/K5-L3B-DAY13-1011-LaunchEconomics/pull/12)
+- [PR #16 · Bảng độ nhạy CP2 và báo cáo cá nhân](https://github.com/tuancdk/K5-L3B-DAY13-1011-LaunchEconomics/pull/16)
+- [PR #13 · Code cỡ mẫu và tỷ lệ mở lại CP4](https://github.com/tuancdk/K5-L3B-DAY13-1011-LaunchEconomics/pull/13)
