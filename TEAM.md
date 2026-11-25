@@ -12,7 +12,7 @@
 | STT | Họ tên | MSSV | Email | GitHub | Vai trò |
 | --: | ------ | ---- | ----- | ------ | ------- |
 |   1 | Vũ Quang Huy | 2A202603782 | 26ai.huyvq6@vinuni.edu.vn | huyvu-03 | Người viết code (đến 15:20) → người kiểm số (sau 15:35) |
-|   2 |        |      |       | Minhduc7904 | Người kiểm số (đến 15:20) → người viết code (sau 15:35) |
+|   2 | Nguyễn Minh Đức | 2A202603751 | nmduc7904@gmail.com | Minhduc7904 | Người kiểm số (đến 15:20) → người viết code (sau 15:35) |
 |   3 | Phùng Văn Thanh Cao | 2A202603741 | 26ai.caopvt@vinuni.edu.vn | ththanh8888 | Người gắn nhãn 1 |
 |   4 | Lê Anh Tuấn | 2A202603792 | 26ai.tuanla3@vinuni.edu.vn | tuancdk | Người gắn nhãn 2, kiêm giữ hồ sơ |
 
