@@ -76,6 +76,25 @@ Báo cáo chi tiết: [report/team/2A202603792_LeAnhTuan.md](report/team/2A20260
 - [PR #10](https://github.com/tuancdk/K5-L3B-DAY13-1011-LaunchEconomics/pull/10) · [PR #19](https://github.com/tuancdk/K5-L3B-DAY13-1011-LaunchEconomics/pull/19) (commit `77100e7`) · [PR #20](https://github.com/tuancdk/K5-L3B-DAY13-1011-LaunchEconomics/pull/20)
 - [Issue #4](https://github.com/tuancdk/K5-L3B-DAY13-1011-LaunchEconomics/issues/4) (CP3) và [issue #5](https://github.com/tuancdk/K5-L3B-DAY13-1011-LaunchEconomics/issues/5) (CP4) đóng kèm kết quả kiểm tra.
 
+## VuQuangHuy-2A202603782
+
+Báo cáo chi tiết trong [báo cáo cá nhân](report/team/2A202603782_VuQuangHuy.md).
+
+### Phần việc phụ trách
+
+- Viết code cho CP1 (A1–A4) và CP2 (B1–B4), kiểm số và hoàn thiện kế hoạch pilot ở CP4, tính ba chỉ số E1 ở CP5.
+
+### Đóng góp cụ thể
+
+- **CP1–CP2** — Cài đặt mô hình chi phí mỗi việc thành công, phân tích theo loại yêu cầu và khối lượng, rồi kiểm tra độ nhạy với giá token, thời gian nhân viên và giới hạn chạy lại.
+- **CP4** — Tính tay D1(e), đối chiếu kết quả 299 yêu cầu/nhân viên với script của Minh Đức, hoàn thiện kế hoạch pilot và kiểm tra bốn luật dừng.
+- **CP5** — Tính và đối chiếu với CSV ba chỉ số E1 để Thanh Cao đưa vào bảng chỉ số của nhóm.
+
+### Bằng chứng
+
+- [src/lab13.py](src/lab13.py) trong các commit `4c884a3` (CP1), `f8aa454` (CP2) và `39dde70` (CP5).
+- [pilot_plan.yaml](report/team/pilot_plan.yaml) trong commit `f9d8207` (CP4).
+
 ## HoVaTen-MSSV
 
 ### Phần việc phụ trách
