@@ -2,19 +2,19 @@
 
 ## Thông tin nhóm
 
-- Tên nhóm:
-- Lớp: L3A hoặc L3B
-- Repo nhóm: `K5-L3A-DAY13-TenNhom-LaunchEconomics` (xem [SUBMISSION.md](SUBMISSION.md))
-- URL repo, nhánh nộp, commit chốt:
+- Tên nhóm: 1011
+- Lớp: L3B
+- Repo nhóm: `K5-L3B-DAY13-1011-LaunchEconomics` (xem [SUBMISSION.md](SUBMISSION.md))
+- URL repo, nhánh nộp, commit chốt: https://github.com/tuancdk/K5-L3B-DAY13-1011-LaunchEconomics · `main` · (điền khi chốt)
 
 ## Thành viên
 
 | STT | Họ tên | MSSV | Email | GitHub | Vai trò |
 | --: | ------ | ---- | ----- | ------ | ------- |
-|   1 |        |      |       |        |         |
-|   2 |        |      |       |        |         |
-|   3 |        |      |       |        |         |
-|   4 |        |      |       |        |         |
+|   1 |        |      |       | huyvu-03 | Người viết code (đến 15:20) → người kiểm số (sau 15:35) |
+|   2 |        |      |       | Minhduc7904 | Người kiểm số (đến 15:20) → người viết code (sau 15:35) |
+|   3 |        |      |       | ththanh8888 | Người gắn nhãn 1 |
+|   4 | Lê Anh Tuấn | 2A202603792 | 26ai.tuanla3@vinuni.edu.vn | tuancdk | Người gắn nhãn 2, kiêm giữ hồ sơ |
 
 Bốn vai của lab:
 
