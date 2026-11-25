@@ -4,13 +4,13 @@
 
 | Loại | Chỉ số | Công thức | Tính thử trên 1.200 yêu cầu |
 | --- | --- | --- | --- |
-| Chính (kết quả) | % yêu cầu đóng trong 24 giờ và không mở lại trong 7 ngày | `dong_trong_24h` bằng 1 và `mo_lai_trong_7_ngay` bằng 0, chia tổng số yêu cầu | ... |
-| Dùng | Tỉ lệ bỏ qua gợi ý | `quyet_dinh_xem_lai` là `sua` hoặc `bo`, chia số yêu cầu được xem lại | ... |
-| An toàn | Tỉ lệ lỗi lọt đến khách | `mo_lai_trong_7_ngay` bằng 1, chia tổng số yêu cầu | ... |
-| Dùng | Nhóm tự đề xuất: ... | ... | Không cần tính |
-| An toàn | Nhóm tự đề xuất: ... | ... | Không cần tính |
+| Chính (kết quả) | % yêu cầu đóng trong 24 giờ và không mở lại trong 7 ngày | `dong_trong_24h` bằng 1 và `mo_lai_trong_7_ngay` bằng 0, chia tổng số yêu cầu | 82,83% (994/1.200) [simulated] |
+| Dùng | Tỉ lệ bỏ qua gợi ý | `quyet_dinh_xem_lai` là `sua` hoặc `bo`, chia số yêu cầu được xem lại | 27,12% (48/177) [simulated] |
+| An toàn | Tỉ lệ lỗi lọt đến khách | `mo_lai_trong_7_ngay` bằng 1, chia tổng số yêu cầu | 4,25% (51/1.200) [simulated]; trong phạm vi noi_dia + hang_nang 3,97% (39/982) |
+| Dùng | Nhóm tự đề xuất: % yêu cầu của nhóm trợ lý mà nhân viên mở gợi ý của trợ lý | Số `agent_suggestion_shown` có staff_id thuộc nhóm trợ lý, chia số `refund_request_created` có arm = tro_ly | Không cần tính |
+| An toàn | Nhóm tự đề xuất: % đơn hoàn sai tiền qua kiểm tra mẫu hằng tuần (bắt lỗi ngầm như ca 5, 17) | Số `audit_sample_checked` có so_tien_da_hoan ≠ so_tien_dung, chia số đơn được kiểm tra trong tuần | Không cần tính |
 
-Viết "chỉ số trong đợt chạy thử là …", không viết "trợ lý đã nâng chỉ số": đợt chạy thử không có nhóm đối chứng.
+Số tính thử do `src/lab13.py` in ra (mục "E1 · Chỉ số trong đợt chạy thử"). Chỉ số chính trong đợt chạy thử là 82,83% [simulated]. Viết "chỉ số trong đợt chạy thử là …", không viết "trợ lý đã nâng chỉ số": đợt chạy thử không có nhóm đối chứng.
 
 ## Danh sách event
 
@@ -37,7 +37,8 @@ Viết "chỉ số trong đợt chạy thử là …", không viết "trợ lý 
 - Chỉ số an toàn (lỗi lọt đến khách): `ticket_reopened` trong 7 ngày, chia số `refund_request_created`.
 - Chi phí mỗi việc thành công (dùng cho luật dừng chi phí): `agent_run_completed` (token, tool, mọi lần chạy) + `staff_review_decision.phut_xem_lai` + `staff_rework_completed.phut_lam_lai`, chia số yêu cầu thành công. Thay phút simulated bằng phút đo thật.
 - Hoàn trùng (luật dừng an toàn): hai `refund_ledger_write` ket_qua = ok cùng request_id.
-- Hai chỉ số tự đề xuất: (người điền E1 ghi event tương ứng sau khi chốt chỉ số).
+- Chỉ số dùng tự đề xuất (% yêu cầu được mở bằng trợ lý): `agent_suggestion_shown` (tử số) + `refund_request_created` với arm = tro_ly (mẫu số).
+- Chỉ số an toàn tự đề xuất (% đơn hoàn sai qua kiểm tra mẫu): `audit_sample_checked`, so sánh so_tien_da_hoan với so_tien_dung.
 
 ## E2 · Rủi ro kinh tế
 
@@ -45,5 +46,6 @@ Viết "chỉ số trong đợt chạy thử là …", không viết "trợ lý 
 
 | Rủi ro | Tác động đã tính | Dấu hiệu theo dõi | Hành động | Người phụ trách |
 | --- | --- | --- | --- | --- |
-| ... | ... | ... | ... | ... |
-| ... | ... | ... | ... | ... |
+| Số ca làm lại tăng gấp đôi | Chi phí mỗi việc thành công lên 6.787 đ (+51,8%) [simulated], yếu tố nhạy nhất trong B1 | Tỉ lệ `staff_rework_completed` trên số yêu cầu theo tuần > 9,8%, tức gấp đôi mức 4,9% (48/982) trong phạm vi của đợt chạy thử [simulated] | Thu hẹp về noi_dia, rà 20 trace làm lại gần nhất để tìm nguyên nhân | PM trợ lý hoàn phí |
+| Phải xem lại 100% kéo dài | 11.743 đ = 0,98× mốc 12.000 đ, hoặc 12.415 đ = 1,03× nếu làm lại 15,3 phút/ca như dữ liệu (B4) [simulated] | % yêu cầu có `staff_review_decision` còn > 50% ở cuối bước rollout 0.25; thời gian xem lại trung bình > 4,8 phút/ca (mức hoà vốn B4) [simulated] | Giảm xem lại theo bậc khi tỉ lệ sửa + bỏ < 15%; rút gọn màn hình xem lại | Trưởng nhóm CSKH |
+| Khối lượng thấp hơn dự kiến | Chi phí cố định 40 triệu đ/tháng: +1.185 đ/việc ở 45.000 yêu cầu/tháng, +2.370 đ/việc nếu chỉ còn một nửa, CPS 5.784 đ = 0,48× (A4) [simulated] | Số việc thành công theo tuần < 50% kế hoạch trong 2 tuần liên tiếp | Không mở rộng pilot, xem lại hợp đồng chi phí cố định | PM trợ lý hoàn phí |
