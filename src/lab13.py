@@ -127,12 +127,69 @@ def in_ket_qua_cp1(runs, reqs):
               f'CPS {cps:,.0f} đ ({cps / BASELINE:.2f}×) [simulated]')
 
 
+def in_ket_qua_cp2(runs, reqs):
+    """In bảng độ nhạy B1–B4 từ cùng mô hình chi phí A2."""
+    cps_goc = mo_hinh(runs, reqs)['cps']
+    kich_ban = {
+        'Giá token gấp đôi': dict(gia_vao=2 * GIA_VAO, gia_ra=2 * GIA_RA),
+        'Giá token giảm một nửa': dict(gia_vao=GIA_VAO / 2, gia_ra=GIA_RA / 2),
+        'Xem lại gấp đôi': dict(he_so_xem_lai=2),
+        'Xem lại giảm một nửa': dict(he_so_xem_lai=0.5),
+        'Làm lại gấp đôi': dict(he_so_lam_lai=2),
+        'Làm lại giảm một nửa': dict(he_so_lam_lai=0.5),
+        'Lương tăng 25%': dict(luong_phut=2500),
+        'Tối đa 2 lần chạy': dict(max_lan_chay=2),
+        'Chỉ 1 lần chạy': dict(max_lan_chay=1),
+    }
+    print('\nB1 · Đổi từng yếu tố [simulated]')
+    print(f'{"Gốc (A2)":26s} {cps_goc:>8,.0f} đ')
+    thay_doi = {}
+    for ten, tham_so in kich_ban.items():
+        cps = mo_hinh(runs, reqs, **tham_so)['cps']
+        thay_doi[ten] = cps / cps_goc - 1
+        print(f'{ten:26s} {cps:>8,.0f} đ {thay_doi[ten]:+7.1%}')
+
+    print('\nB2 · Đổi một cặp và xếp hạng [simulated]')
+    cps_cap = mo_hinh(runs, reqs, **kich_ban['Giá token gấp đôi'],
+                     **kich_ban['Xem lại gấp đôi'])['cps']
+    print(f'Token và xem lại cùng gấp đôi: {cps_cap:,.0f} đ ({cps_cap / cps_goc - 1:+.1%})')
+    tac_dong = {ten: muc for ten, muc in thay_doi.items() if muc > 0}
+    hang = sorted(tac_dong, key=tac_dong.get, reverse=True)
+    print('Ba tác động lớn nhất: ' + ' · '.join(f'{ten} ({tac_dong[ten]:+.1%})' for ten in hang[:3]))
+
+    print('\nB3 · Giới hạn chạy lại [chi phí simulated]')
+    print(f'{"Giới hạn":>9s} {"Tổng trợ lý":>14s} {"Không thành công":>18s} '
+          f'{"Cả hệ thống":>14s} {"CPS":>8s}')
+    for gioi_han in (1, 2, 3):
+        ket_qua = mo_hinh(runs, reqs, max_lan_chay=gioi_han)
+        khong_thanh_cong = len(reqs) - ket_qua['thanh_cong']
+        tong_he_thong = ket_qua['tong'] + khong_thanh_cong * BASELINE
+        print(f'{gioi_han:9d} {ket_qua["tong"]:14,.0f} {khong_thanh_cong:18d} '
+              f'{tong_he_thong:14,.0f} {ket_qua["cps"]:8,.0f}')
+
+    print('\nB4 · Xem lại 100% trong phạm vi noi_dia + hang_nang [simulated]')
+    pham_vi = reqs[reqs['loai'].isin(['noi_dia', 'hang_nang'])].copy()
+    yeu_cau_ok = runs.loc[runs['status'].eq('ok'), 'request_id']
+    can_xem_lai = pham_vi['request_id'].isin(yeu_cau_ok)
+    can_lam_lai = pham_vi['ket_qua'].eq('lam_lai')
+    pham_vi['phut_xem_lai_simulated'] = can_xem_lai.astype(int) * 5
+    phut_lam_lai_tb = reqs.loc[reqs['ket_qua'].eq('lam_lai'), 'phut_lam_lai_simulated'].mean()
+    print(f'{len(pham_vi)} yêu cầu, {can_xem_lai.sum()} ca xem lại, {can_lam_lai.sum()} ca làm lại')
+    for phut_lam_lai in (9, round(phut_lam_lai_tb, 1)):
+        pham_vi['phut_lam_lai_simulated'] = can_lam_lai.astype(int) * phut_lam_lai
+        ket_qua = mo_hinh(runs, pham_vi)
+        ngan_sach_xem_lai = BASELINE * ket_qua['thanh_cong'] - (ket_qua['tong'] - ket_qua['xem_lai'])
+        phut_hoa_von = ngan_sach_xem_lai / (can_xem_lai.sum() * LUONG_PHUT)
+        print(f'{phut_lam_lai:g} phút làm lại/ca → CPS {ket_qua["cps"]:,.0f} đ '
+              f'({ket_qua["cps"] / BASELINE:.2f}×), hòa vốn ở {phut_hoa_von:.1f} phút xem lại/ca')
+
+
 if __name__ == '__main__':
     runs = pd.read_csv('logix_runs.csv')
     reqs = pd.read_csv('logix_requests.csv', keep_default_na=False)
     kiem_tra_dap_an_biet_truoc()
     in_ket_qua_cp1(runs, reqs)
-    # TODO CP2 · Nhiệm vụ B: đổi từng yếu tố, ghi vào bảng độ nhạy.
+    in_ket_qua_cp2(runs, reqs)
     # TODO CP4 · Nhiệm vụ D: cỡ mẫu.
     #   from statsmodels.stats.proportion import proportion_effectsize
     #   from statsmodels.stats.power import NormalIndPower
