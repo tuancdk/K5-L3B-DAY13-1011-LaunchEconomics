@@ -50,7 +50,7 @@ Ví dụ: `report/team/20241234_NguyenVanAn.md`.
 
 ### Bằng chứng
 
-- Commit `8cf75a7` (PR #14), `556eb64` (nhãn độc lập CP3, PR #17), `2b3c824` (danh sách event, PR #21), cùng commit E1/E2 này.
+- Commit `8cf75a7` (PR #14), `556eb64` (nhãn độc lập CP3, PR #17), `2b3c824` (danh sách event, PR #21), `3dad4b2` (E1, E2, hồ sơ mục 4, PR #24).
 - File: `report/team/bang_loi.md`, `report/team/chi_so.md`, `report/team/2A202603741_PhungVanThanhCao.md`.
 
 ## LeAnhTuan-2A202603792

@@ -26,22 +26,25 @@
 
 | Loại | Nội dung |
 |---|---|
-| Commit | `8cf75a7`: thêm báo cáo cá nhân và thông tin TEAM.md (PR #14) · (thêm mã commit CP3 sau khi push) |
-| File | `report/team/bang_loi.md`, cột "Nhãn người 1"; `TEAM.md`, dòng 3 |
-| Bảng / mục | `bang_loi.md`: hai bộ nhãn độc lập; checklist "Xong khi" CP1, CP2 |
-| Con số | 20/20 ca đã gắn nhãn; B1 9/9 kịch bản khớp đáp án; A2 4.472 đ [simulated] |
+| Commit | `8cf75a7`: báo cáo cá nhân và TEAM.md (PR #14) · `556eb64`: nhãn độc lập người gắn nhãn 1, CP3 (PR #17) · `2b3c824`: danh sách 11 event và kiểm tra chéo (PR #21) · `3dad4b2`: E1, E2 trong `chi_so.md`, hồ sơ mục 4, đóng góp TEAM.md (PR #24) |
+| File | `report/team/bang_loi.md` (cột "Nhãn người 1"); `report/team/chi_so.md` (event, E1, E2); `report/team/ho_so_launch_v0.md` (mục 4); `TEAM.md` (dòng 3 và mục cá nhân) |
+| Bảng / mục | `bang_loi.md`: hai bộ nhãn độc lập; `chi_so.md`: bảng E1, danh sách event, bảng E2; checklist "Xong khi" CP1, CP2, CP4 |
+| Con số | 20/20 ca đã gắn nhãn; B1 9/9 kịch bản khớp đáp án; A2 4.472 đ [simulated]; E1 82,83% · 27,12% · 4,25% [simulated]; 11 event có `trace_id` |
 
 ## 5. Công cụ AI đã dùng
 
 | Công cụ | Dùng vào việc gì | Cách tự kiểm tra |
 |---|---|---|
-
+| Claude | Hỗ trợ giải đáp những phần còn đang chưa phân vân, kết quả gán nhãn 20 ca lỗi do cá nhân chủ động thực hiện theo Google PAIR, giải đáp các trường hợp chưa rõ ràng, phân tích những điểm chưa thống nhất và hỗ trợ hoàn thiện quy tắc phân biệt giữa các nhóm nhãn | Đối chiếu với tiêu chí Google PAIR, yêu cầu dự án (`CHECKPOINTS.md`, `RUBRIC.md`), kết quả trao đổi với người gắn nhãn 2 và tài liệu minh chứng; tự đánh giá, xác nhận kết quả trước khi cập nhật |
 
 - Mọi con số trong hồ sơ đều do `src/lab13.py` tính, hoặc tính tay có ghi cách tính, không lấy số do AI tự đưa ra.
 
 ## 6. Tự đánh giá
 
-- Làm tốt:
-- Chưa tốt / cần cải thiện:
-- Bài học rút ra:
-- Mức đóng góp tự chấm (/10):
+- **Làm tốt:** Có ý thức chủ động theo dõi tiến độ và các điều kiện hoàn thành của từng checkpoint CP1–CP5, kịp thời rà soát và phản hồi những nội dung còn thiếu để nhóm bổ sung. Hoàn thành phần gắn nhãn độc lập 20 ca lỗi, phối hợp đối chiếu kết quả với người gắn nhãn 2 và tham gia xây dựng quy tắc phân biệt nhằm thống nhất cách đánh giá. Đồng thời, chú trọng kiểm tra số liệu và bằng chứng trước khi cập nhật vào báo cáo chung.
+
+- **Chưa tốt / cần cải thiện:** Trong quá trình gắn nhãn, một số trường hợp có nguyên nhân gốc tương đối phức tạp nên việc phân biệt giữa các nhóm nhãn ban đầu chưa thực sự nhất quán. Tỷ lệ đồng thuận độc lập đạt 50%, cho thấy bản thân cần cải thiện thêm khả năng phân tích tình huống, xác định nguyên nhân gốc và vận dụng tiêu chí phân loại một cách chặt chẽ hơn. Bên cạnh đó, cần chủ động hơn trong việc rà soát và hoàn thiện tài liệu từ sớm.
+
+- **Bài học rút ra:** Qua quá trình thực hiện, bản thân nhận thấy việc thống nhất định nghĩa và tiêu chí đánh giá ngay từ đầu rất quan trọng, đặc biệt đối với những công việc mang tính phân tích và gắn nhãn. Việc đối chiếu kết quả giúp nhận diện những điểm chưa thống nhất, đồng thời nâng cao tính nhất quán và độ tin cậy của dữ liệu. Ngoài ra, mỗi kết quả cần được kiểm chứng bằng số liệu và bằng chứng cụ thể trước khi đưa vào báo cáo.
+
+- **Mức đóng góp tự chấm: 8/10.**
